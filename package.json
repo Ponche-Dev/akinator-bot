@@ -1,0 +1,39 @@
+{
+
+  "name": "",
+
+  "version": "0.0.1",
+
+  "description": ".",
+
+  "main": "server.js",
+
+  "author": "Ponche",
+
+  "scripts": {
+
+    "start": "node server.js"
+
+  },
+
+  "dependencies": {
+
+    "fs": "^0.0.2",
+
+    "node-fetch": "^2.6.1",
+
+    "discord.js": "^12.5.1",
+    "akinator-dc": "^2.0.2",
+    "aki-api": "^5.2.1"
+
+  },
+
+  "engines": {
+
+    "node": "12.x"
+
+  },
+
+  "license": "MIT" 
+
+}
