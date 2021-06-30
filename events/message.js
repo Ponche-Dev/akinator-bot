@@ -10,7 +10,7 @@ module.exports = message => {
 
     let params = message.content.split(" ").slice(1)
 
-    let cmd;
+   /* let cmd;
 
     if (client.commands.has(command)) {
 
@@ -20,7 +20,7 @@ module.exports = message => {
 
         cmd = client.commands.get(client.aliases.get(command));
 
-    };
+    };*/
 
     
 
