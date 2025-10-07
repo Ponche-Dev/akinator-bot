@@ -8,50 +8,17 @@ const games = new Set();
 
 const attemptingGuess = new Set();
 
-/**
+/*
+ * @param {"en" | "ar" | "cn" | "de" | "es" | "fr" | "il" | "it" | "jp" | "kr" | "nl" | "pl" | "pt" | "ru" | "tr" | "id"} region (OPSİYONEL): Botu hizmete sunacağınız bölgeye göre dilini ayarlayabilirsiniz default değer en
 
-    * @param {Discord.Message} message The Message Sent by the User.
-
-    * @param {Discord.Client} client The Discord Client.
-
-    * @param {"en" | "ar" | "cn" | "de" | "es" | "fr" | "il" | "it" | "jp" | "kr" | "nl" | "pl" | "pt" | "ru" | "tr" | "id"} region (OPTIONAL): The Region/Language Code you want Akinator to Use. Defaults to "en".
-
-    * @returns Discord.js Akinator Game
-
-    * @async
-
-    * @example
-
-    *  const Discord = require("discord.js");
-
-    *  const client = new Discord.Client();
-
-    *  const akinator = require("discord.js-akinator");
-
-    * 
-
-    * const PREFIX = "!";
-
-    * 
-
-    * client.on("message", async message => {
-
-    *     if(message.content.startsWith(`${PREFIX}akinator`)) {
-
-    *         akinator(message, client)
-
-    *     }
-
-    * });
-
-       */
+ÖRNEK: if (!region) region = "tr" ------ if (!region) region = "de" ------ if (!region) region = "ru"
+*/
 
 module.exports = async function (message, client, region) {
 
     try {
 
-        // error handling
-
+        // hata mesajı
         if (!message) return console.log("akinator hatası!");
 
         if (!client) return console.log("akinator hatası!");
@@ -66,7 +33,7 @@ module.exports = async function (message, client, region) {
 
        
 
-        // defining for easy use
+        // kullanıcı girdisi
 
         let usertag = message.author.tag
 
@@ -74,7 +41,7 @@ module.exports = async function (message, client, region) {
 
         
 
-        // check if a game is being hosted by the player
+        // oyun kontrol
 
         if (games.has(message.author.id)) {
 
@@ -94,7 +61,7 @@ module.exports = async function (message, client, region) {
 
        
 
-        // adding the player into the game
+        // kullanıcı ekleme
 
         games.add(message.author.id)
 
@@ -110,7 +77,7 @@ module.exports = async function (message, client, region) {
 
         let startingMessage = await message.channel.send({ embed: startingEmbed })
 
-        // starts the game
+        // ana komut burada başlıyor değerleri ellemeyin
 
         let aki = new Aki(region)
 
@@ -154,7 +121,7 @@ module.exports = async function (message, client, region) {
 
          
 
-        // if message was deleted, quit the player from the game
+        // bu komut kullanıcı mesajı silerse oyunu bitiriyor bu komutu iptal etmeyin aşırı cpu yükü biner
 
         client.on("messageDelete", async deletedMessage => {
 
@@ -174,7 +141,7 @@ module.exports = async function (message, client, region) {
 
         })
 
-        // repeat while the game is not finished
+        // olası tahmin son sorudan önce çıkıyor
 
         while (notFinished) {
 
@@ -210,7 +177,7 @@ module.exports = async function (message, client, region) {
 
                 await akiMessage.edit({ embed: guessEmbed });
 
-                // valid answers if the akinator sends the last question
+                // son soru
 
                 const guessFilter = x => {
 
@@ -248,7 +215,7 @@ module.exports = async function (message, client, region) {
 
                         attemptingGuess.delete(message.guild.id)
 
-                        // if they answered yes
+                        // cevap doğru
 
                         if (guessAnswer == "e" || guessAnswer == "evet") {
 
@@ -278,7 +245,7 @@ module.exports = async function (message, client, region) {
 
                            
 
-                        // otherwise
+                        // yanlış
 
                         } else if (guessAnswer == "h" || guessAnswer == "hayır") {
 
@@ -330,7 +297,7 @@ module.exports = async function (message, client, region) {
 
             akiMessage.edit({ embed: updatedAkiEmbed })
 
-            // all valid answers when answering a regular akinator question
+            // ingilizce değerleri silmeyin 
 
             const filter = x => {
 
@@ -396,7 +363,7 @@ module.exports = async function (message, client, region) {
 
                     const answer = String(responses.first()).toLowerCase().replace("'", "");
 
-                    // assign points for the possible answers given
+                    // puan sitemi kaldırmak isterseniz discorddan iletişim kurabilirsiniz
 
                     const answers = {
 
@@ -462,7 +429,7 @@ module.exports = async function (message, client, region) {
 
                        
 
-                    // stop the game if the user selected to stop
+                    // oyun durdurma
 
                     } else if (answer == "d" || answer == "durdur") {
 
@@ -498,7 +465,7 @@ module.exports = async function (message, client, region) {
 
     } catch (e) {
 
-        // log any errors that come
+        // olası api hatası silmeyin 
 
         attemptingGuess.delete(message.guild.id)
 
