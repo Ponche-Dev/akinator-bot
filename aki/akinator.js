@@ -25,7 +25,7 @@ module.exports = async function (message, client, region) {
 
         if (!region) region = "tr"
 
-        if (!message.id || !message.channel || !message.channel.id || !message.author) throw new Error("The Message Object provided was invalid!")
+        if (!message.id || !message.channel || !message.channel.id || !message.author) throw new Error("Hata!")
 
         if (!client.user.id || !client.user) throw new Error("client hatası!")
 
